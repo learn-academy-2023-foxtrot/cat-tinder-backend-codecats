@@ -1,24 +1,11 @@
-# README
+rails g resource Cats name:string age:integer hobbies:string image:text
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+making the cats:
+Cats.create(name:'Franklin', age:5, hobbies:'eating toilet paper' image:'https://unsplash.com/photos/7DXQtl__9Cw')
 
-Things you may want to cover:
+second cat:
+Cat.create(name:'Solo', age:2, hobbies:'loves the scratching post' image:'https://unsplash.com/photos/a-cat-sitting-on-top-of-a-cat-tree-hgGZPMWaKjA')
 
-* Ruby version
+third cat:
+Cat.create(name:'Belinda', age:10, hobbies:'biting peoples face while asleep' image:'https://unsplash.com/photos/uhnbTZC7N9k')
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
