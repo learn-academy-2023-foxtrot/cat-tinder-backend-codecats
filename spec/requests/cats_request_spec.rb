@@ -38,28 +38,31 @@ RSpec.describe "Cats", type: :request do
 
   describe "PATCH /update/:id" do
     it 'updates a cat' do
-      cat = Cat.create(
-        name: 'Felix',
+      cat_params = {
+        cat: {  name: 'Felix',
         age: 3,
         hobbies: 'chasing mice',
-        image: 'https://example.com/cat.jpg'
-      )
-
+        image: 'https://example.com/cat.jpg'}
+      }
+      post '/cats', params: cat_params
+      cat = Cat.first
       updated_cat_params = {
         cat: {
           name: 'Whiskers',
           age: 4,
-          hobbies: 'napping',
+          hobbies: 'napping on a bench',
           image: 'https://example.com/whiskers.jpg'
         }
       }
 
       patch "/cats/#{cat.id}", params: updated_cat_params
+      
+      cat_updated = Cat.find(cat.id)
       expect(response).to have_http_status(200)
       cat.reload
-      expect(cat.name).to eq 'Whiskers'
-      expect(cat.age).to eq 4
-      expect(cat.hobbies).to eq 'napping'
+      expect(cat_updated.name).to eq 'Whiskers'
+      expect(cat_updated.age).to eq 4
+      expect(cat_updated.hobbies).to eq 'napping on a bench'
     end
   end
 
@@ -75,6 +78,62 @@ RSpec.describe "Cats", type: :request do
       delete "/cats/#{cat.id}"
       expect(response).to have_http_status(204)
       expect { cat.reload }.to raise_error ActiveRecord::RecordNotFound
+    end
+  end
+
+  describe('can not create without valid attributes') do
+    it "doesn't create cats without name" do
+      cat_params = { 
+        cat: {
+          age: 5,
+          hobbies: 'eating toilet paper',
+          image: 'https://unsplash.com/photos/7DXQtl__9Cw'
+        }
+       }
+       post '/cats', params: cat_params
+       expect(response.status).to eq 422
+       json = JSON.parse(response.body)
+       expect(json['name']).to include "can't be blank"
+    end
+  
+    it "doesn't create cats without age" do
+      cat_params = { 
+        cat: {
+          name: 'Franklin',
+          hobbies: 'eating toilet paper',
+          image: 'https://unsplash.com/photos/7DXQtl__9Cw'
+        }
+       }
+       post '/cats', params: cat_params
+       expect(response.status).to eq 422
+       json = JSON.parse(response.body)
+       expect(json['age']).to include "can't be blank"
+    end
+    it "doesn't create cats without hobbies" do
+      cat_params = { 
+        cat: {
+          name: 'Franklin',
+          age: 5,
+          image: 'https://unsplash.com/photos/7DXQtl__9Cw'
+        }
+       }
+       post '/cats', params: cat_params
+       expect(response.status).to eq 422
+       json = JSON.parse(response.body)
+       expect(json['hobbies']).to include "can't be blank"
+    end
+    it "doesn't create cats without image" do
+      cat_params = { 
+        cat: {
+          name: 'Franklin',  
+        age: 5,
+          hobbies: 'eating toilet paper'
+        }
+       }
+       post '/cats', params: cat_params
+       expect(response.status).to eq 422
+       json = JSON.parse(response.body)
+       expect(json['image']).to include "can't be blank"
     end
   end
 end
