@@ -10,14 +10,13 @@ cats = [
     name: 'Franklin',
     age: 5,
     hobbies: 'eating toilet paper',
-    image: 'https://unsplash.com/photos/7DXQtl__9Cw'
+    image: 'https://www.pexels.com/photo/selective-focus-photography-of-orange-tabby-cat-1170986/'
   },
   {
     name: 'Solo',
     age: 2,
     hobbies: 'loves the scratching post',
-    image: 'https://unsplash.com/photos/a-cat-sitting-on-t
-    op-of-a-cat-tree-hgGZPMWaKjA'
+    image: 'https://unsplash.com/photos/a-cat-sitting-on-top-of-a-cat-tree-hgGZPMWaKjA'
   },
   {
     name: 'Belinda',
